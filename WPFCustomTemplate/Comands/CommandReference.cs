@@ -35,14 +35,15 @@ namespace WPFCustomTemplate.Comands
             }
         }
 
-        bool ICommand.CanExecute(object parameter)
+        public bool CanExecute(object parameter)
         {
             if (Command != null)
                 return Command.CanExecute(parameter);
+
             return false;
         }
 
-        void ICommand.Execute(object parameter)
+        public void Execute(object parameter)
         {
             Command.Execute(parameter);
         }

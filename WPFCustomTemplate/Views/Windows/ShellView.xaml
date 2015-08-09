@@ -1,0 +1,29 @@
+﻿<Window x:Class="WPFCustomTemplate.Views.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFCustomTemplate.Views"
+        xmlns:viewModels="clr-namespace:WPFCustomTemplate.ViewModels"
+        xmlns:comands="clr-namespace:WPFCustomTemplate.Comands"
+        mc:Ignorable="d"
+        Title="ShellView" Height="300" Width="300">
+
+    <Window.DataContext>
+        <viewModels:ShellViewModel />
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <comands:CommandReference x:Key="KeyPressed" Command="{Binding KeyPressed}" />
+        <comands:CommandReference x:Key="PressedMouseClick" Command="{Binding PressedMouseClick}" />
+    </Window.Resources>
+    
+    <Grid>
+        <TextBox Name="text">
+            <TextBox.InputBindings>
+                <KeyBinding Command="{StaticResource KeyPressed}" Key="q"/>
+                <MouseBinding Command="{StaticResource PressedMouseClick}" Gesture="LeftClick"/>
+            </TextBox.InputBindings>
+        </TextBox>
+    </Grid>
+</Window>

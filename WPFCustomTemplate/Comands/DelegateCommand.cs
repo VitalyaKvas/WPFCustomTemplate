@@ -5,17 +5,24 @@ namespace WPFCustomTemplate.Comands
 {
     public class DelegateCommand : ICommand
     {
-        private readonly Action executeMethod = null;
+        private readonly Action<object> executeMethod = null;
+        private readonly Predicate<object> canExecute = null;
 
-        public DelegateCommand(Action executeMethod)
+        public DelegateCommand(Action<object> executeMethod)
+            : this(executeMethod, null)
+        { }
+
+        public DelegateCommand(Action<object> executeMethod, Predicate<object> canExecute)
         {
             if (executeMethod == null)
                 throw new ArgumentNullException("executeMethod");
 
             this.executeMethod = executeMethod;
+            this.canExecute = canExecute;
         }
 
         #region ICommand Members
+
         public event EventHandler CanExecuteChanged
         {
             add
@@ -28,16 +35,19 @@ namespace WPFCustomTemplate.Comands
             }
         }
 
-        bool ICommand.CanExecute(object parameter)
+        public bool CanExecute(object parameter)
         {
-            return true;
+            if (canExecute == null)
+                return true;
+
+            return canExecute(parameter);
         }
 
-        void ICommand.Execute(object parameter)
+        public void Execute(object parameter)
         {
-            if (executeMethod != null)
-                executeMethod();
+            executeMethod(parameter);
         }
+
         #endregion
     }
 }
